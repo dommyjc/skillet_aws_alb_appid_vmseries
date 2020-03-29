@@ -1,0 +1,90 @@
+# skillet preamble information used by panhandler
+# ---------------------------------------------------------------------
+# unique snippet name
+name: AwsAlbAppID
+# label used for menu selection
+label: appid - AWS ALB
+description: Skillet to create the Palo Alto Networks App-ID for the AWS Load Balancer Health Probe
+
+# type of device configuration
+# common types are panorama, panos, and template
+# https://github.com/PaloAltoNetworks/panhandler/blob/develop/docs/metadata_configuration.rst
+type: panos
+# preload static or default-based templates
+extends:
+
+# grouping of like snippets for dynamic menu creation in panhandler
+labels:
+  collection:
+    - appid
+    - AWS
+
+# ---------------------------------------------------------------------
+# end of preamble section
+
+# variables section
+# ---------------------------------------------------------------------
+# variables used in the configuration templates
+# type_hint defines the form field used by panhandler
+# type_hints can be text, ip_address, or dropdown
+variables:
+  - name: appid_name
+    description: appid name (32 total char limit)
+    default: appidname
+    type_hint: text
+  - name: appid_description
+    description: appid_description
+    default: appid_description
+    type_hint: text
+  - name: address_name1
+    description: appgw_source_address_subnet1
+    default: appgw_source_address_subnet_name1
+    type_hint: text
+  - name: address_cidr1
+    description: appgw_source_address_subnet1
+    default: 10.0.0.0/24
+    type_hint: text    
+  - name: address_description1
+    description: appgw_source_address_description1
+    default: appgw_source_address_description1
+    type_hint: text  
+  - name: address_name2
+    description: appgw_source_address_subnet2
+    default: appgw_source_address_subnet_name2
+    type_hint: text
+  - name: address_cidr2
+    description: appgw_source_address_subnet2
+    default: 10.0.10.0/24
+    type_hint: text    
+  - name: address_description2
+    description: appgw_source_address_description2
+    default: appgw_source_address_description2
+    type_hint: text         
+  - name: rule_name
+    description: security_rule_name
+    default: security_rule_name
+    type_hint: text
+  - name: rule_description
+    description: security_rule_description
+    default: security_rule_description
+    type_hint: text        
+# ---------------------------------------------------------------------
+# end of variables section
+
+# snippets section
+# ---------------------------------------------------------------------
+# snippets used for api configuration including xpath and element as file name
+# files will load in the order listed
+snippets:
+  - name: appid
+    xpath: /config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/application
+    file: appid.xml
+  - name: address
+    xpath: /config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/address
+    file: address.xml  
+  - name: rules
+    xpath: /config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/rulebase/security/rules
+    file: rules.xml  
+
+# ---------------------------------------------------------------------
+# end of snippets section
